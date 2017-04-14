@@ -46,7 +46,7 @@ public class CoreServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
-	// 微信加密签名  
+	    // 微信加密签名  
         String signature = request.getParameter("signature");  
         // 时间戳  
         String timestamp = request.getParameter("timestamp");  
@@ -70,7 +70,7 @@ public class CoreServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
-	// 将请求、响应的编码均设置为UTF-8（防止中文乱码）  
+	   // 将请求、响应的编码均设置为UTF-8（防止中文乱码）  
         request.setCharacterEncoding("UTF-8");  
         response.setCharacterEncoding("UTF-8");  
   
