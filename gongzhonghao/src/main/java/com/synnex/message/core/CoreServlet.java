@@ -71,6 +71,9 @@ public class CoreServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
 	   // 将请求、响应的编码均设置为UTF-8（防止中文乱码）  
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        System.out.println(parameterMap.keySet());
+        
         request.setCharacterEncoding("UTF-8");  
         response.setCharacterEncoding("UTF-8");  
   

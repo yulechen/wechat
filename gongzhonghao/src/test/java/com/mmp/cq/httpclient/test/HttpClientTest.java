@@ -54,7 +54,8 @@ public class HttpClientTest {
         list.add(nameValuePair2);
         list.add(nameValuePair3);
         
-       URI build = builder.setScheme("http")
+       URI build = builder
+               .setScheme("http")
                .setHost("www.baidu.com")
                .setPath("/news")
                .setParameters(list)
