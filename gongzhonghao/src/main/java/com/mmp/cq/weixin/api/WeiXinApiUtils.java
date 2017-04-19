@@ -17,8 +17,8 @@ public class WeiXinApiUtils {
         URI accessTokenURI = new URI("https://api.weixin.qq.com/cgi-bin/token");
         Map param = new HashMap();
         param.put("grant_type", "client_credential");
-        param.put("appid", "wx552f9b0b4fa40829");
-        param.put("secret", "b749193534b1c9a5750002a931793759");
+        param.put("appid", "wx552f9b0b4fa40821");
+        param.put("secret", "b749193534b1c9a5750002a931793751");
         String responesJson = ApiUtils.get(accessTokenURI, param);
         System.out.println("access_token_api_response:   "+responesJson);
         Map<String,String> map = GsonUtil.toObject(responesJson, Map.class);
