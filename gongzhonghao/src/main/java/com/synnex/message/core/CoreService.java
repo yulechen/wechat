@@ -1,12 +1,16 @@
 package com.synnex.message.core;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
+import com.synnex.message.resp.Article;
+import com.synnex.message.resp.NewsMessage;
 import com.synnex.message.resp.RespTestMsg;
 import com.synnex.message.resp.TextMessage;
 
@@ -48,6 +52,25 @@ public class CoreService {
             if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {  
                 respContent = "您发送的是文本消息！";  
                 respContent= respContent+RespTestMsg.getMainMenu();
+                if("weixinjsdemo".equals(requestMap.get("Content"))){
+                    NewsMessage newsMessage = new NewsMessage();
+                    newsMessage.setArticleCount(1);
+                    newsMessage.setCreateTime(new Date().getTime());
+                    newsMessage.setFromUserName(toUserName);
+                    newsMessage.setToUserName(fromUserName);
+                    newsMessage.setFuncFlag(1);
+                    newsMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
+                    List l = new ArrayList<>();
+                    Article a = new Article();
+                    a.setDescription("微信jsdemo");
+                    a.setTitle("微信jsdemo");
+                    a.setUrl("http://203.195.235.76/jssdk/");
+                    l.add(a);
+                    newsMessage.setArticles(l);
+                    return MessageUtil.newsMessageToXml(newsMessage);
+                }
+                
+                
             }  
             // 图片消息  
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) {  

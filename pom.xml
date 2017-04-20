@@ -6,6 +6,7 @@
   <packaging>pom</packaging>
   <modules>
   	<module>gongzhonghao</module>
+  	<module>miniprogram</module>
   </modules>
   
     <build>
