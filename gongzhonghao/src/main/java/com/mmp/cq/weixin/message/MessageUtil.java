@@ -1,17 +1,32 @@
-package com.synnex.message.core;
+package com.mmp.cq.weixin.message;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.http.Consts;
+import org.apache.http.entity.ContentType;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.Args;
+import org.apache.http.util.CharArrayBuffer;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import com.mmp.cq.utils.XmlUtils;
+import com.mmp.cq.weixin.message.request.BaseMessage;
+import com.mmp.cq.weixin.message.request.ImageMessage;
 import com.mmp.cq.weixin.message.response.Article;
 import com.mmp.cq.weixin.message.response.MusicMessage;
 import com.mmp.cq.weixin.message.response.NewsMessage;
@@ -117,6 +132,28 @@ public class MessageUtil {
         return map;  
     }  
   
+    
+    public String getRequestContent(HttpServletRequest request) throws IOException{
+        final InputStream instream = request.getInputStream();
+        if (instream == null) {
+            return null;
+        }
+        try {
+            int i = instream.available();
+            if (i < 0) i = 4096;
+            Charset charset =Consts.UTF_8;
+            final Reader reader = new InputStreamReader(instream, charset);
+            final CharArrayBuffer buffer = new CharArrayBuffer(i);
+            final char[] tmp = new char[1024];
+            int l;
+            while((l = reader.read(tmp)) != -1) {
+                buffer.append(tmp, 0, l);
+            }
+            return buffer.toString();
+        } finally {
+            instream.close();
+        }
+    }
     /** 
      * 文本消息对象转换成xml 
      *  

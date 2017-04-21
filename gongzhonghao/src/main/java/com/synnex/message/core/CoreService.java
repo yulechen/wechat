@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
+import com.mmp.cq.weixin.message.MessageUtil;
 import com.mmp.cq.weixin.message.response.Article;
 import com.mmp.cq.weixin.message.response.NewsMessage;
 import com.mmp.cq.weixin.message.response.RespTestMsg;

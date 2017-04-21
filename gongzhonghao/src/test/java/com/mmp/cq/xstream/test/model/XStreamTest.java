@@ -65,7 +65,7 @@ public class XStreamTest {
         System.out.println(xml);
         System.out.println("---------------------------");
         Object object = xStream.fromXML(xml);
-        System.out.println(object);
+        System.out.println(object.getClass());
     }
     
     public XStream genStaXStream(){
