@@ -9,12 +9,8 @@ import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 
 public class XmlUtils {
-
-
     /** 
      * 扩展xstream，使其支持CDATA块 
-     *  
-     * @date 2013-05-19 
      */  
     public static XStream xstream = new XStream(new XppDriver() {  
         public HierarchicalStreamWriter createWriter(Writer out) {  
