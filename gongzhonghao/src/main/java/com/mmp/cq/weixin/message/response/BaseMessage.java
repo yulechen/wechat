@@ -1,4 +1,4 @@
-package com.synnex.message.resp;
+package com.mmp.cq.weixin.message.response;
 public class BaseMessage {  
     // 接收方帐号（收到的OpenID）  
     private String ToUserName;  

@@ -1,4 +1,4 @@
-package com.synnex.message.req;
+package com.mmp.cq.weixin.message.request;
 public class VoiceMessage extends BaseMessage {  
     // 媒体ID  
     private String MediaId;  

@@ -17,10 +17,10 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import com.synnex.message.req.TextMessage;
-import com.synnex.message.resp.Article;
-import com.synnex.message.resp.MusicMessage;
-import com.synnex.message.resp.NewsMessage;
+import com.mmp.cq.weixin.message.request.TextMessage;
+import com.mmp.cq.weixin.message.response.Article;
+import com.mmp.cq.weixin.message.response.MusicMessage;
+import com.mmp.cq.weixin.message.response.NewsMessage;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;

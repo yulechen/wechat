@@ -1,4 +1,4 @@
-package com.synnex.message.req;
+package com.mmp.cq.weixin.message.request;
 public class LocationMessage extends BaseMessage {  
     // 地理位置维度  
     private String Location_X;  

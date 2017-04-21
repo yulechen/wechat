@@ -1,4 +1,4 @@
-package com.synnex.message.req;
+package com.mmp.cq.weixin.message.request;
 public class ImageMessage extends BaseMessage {  
     // 图片链接  
     private String PicUrl;  

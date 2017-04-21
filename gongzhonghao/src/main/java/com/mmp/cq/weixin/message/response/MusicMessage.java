@@ -1,4 +1,4 @@
-package com.synnex.message.resp;
+package com.mmp.cq.weixin.message.response;
 public class MusicMessage extends BaseMessage {  
     // 音乐  
     private Music Music;  

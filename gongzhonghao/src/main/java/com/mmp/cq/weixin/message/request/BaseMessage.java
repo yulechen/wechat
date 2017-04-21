@@ -1,4 +1,4 @@
-package com.synnex.message.req;
+package com.mmp.cq.weixin.message.request;
 public class BaseMessage {  
     // 开发者微信号  
     private String ToUserName;  

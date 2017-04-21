@@ -1,4 +1,4 @@
-package com.synnex.message.resp;
+package com.mmp.cq.weixin.message.response;
 public class TextMessage extends BaseMessage {  
     // 回复的消息内容  
     private String Content;  

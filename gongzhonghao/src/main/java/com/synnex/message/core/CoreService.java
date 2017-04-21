@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
-import com.synnex.message.resp.Article;
-import com.synnex.message.resp.NewsMessage;
-import com.synnex.message.resp.RespTestMsg;
-import com.synnex.message.resp.TextMessage;
+import com.mmp.cq.weixin.message.response.Article;
+import com.mmp.cq.weixin.message.response.NewsMessage;
+import com.mmp.cq.weixin.message.response.RespTestMsg;
+import com.mmp.cq.weixin.message.response.TextMessage;
 
 public class CoreService {  
     

@@ -1,4 +1,4 @@
-package com.synnex.message.req;
+package com.mmp.cq.weixin.message.request;
 public class TextMessage extends BaseMessage {  
     // 消息内容  
     private String Content;  

@@ -1,4 +1,4 @@
-package com.synnex.message.req;
+package com.mmp.cq.weixin.message.request;
 public class LinkMessage extends BaseMessage {  
     // 消息标题  
     private String Title;  

@@ -1,4 +1,4 @@
-package com.synnex.message.resp;
+package com.mmp.cq.weixin.message.response;
 public class Music {  
     // 音乐名称  
     private String Title;  
