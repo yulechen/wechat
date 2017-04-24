@@ -44,17 +44,16 @@ public class XmlUtils {
     }); 
     
     
-   public static Converter baseMessageConverer = new Converter() {
+   public static Converter messageConverer = new Converter() {
     
     @Override
     public boolean canConvert(Class type) {
-        return type.equals(BaseMessage.class);
+        return true;
     }
     
     @Override
     public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
-        BaseMessage baseMessage =new BaseMessage();
-        BeanWrapperImpl beanWraper = new BeanWrapperImpl(baseMessage);
+        BeanWrapperImpl beanWraper = new BeanWrapperImpl(context.getRequiredType());
         while (reader.hasMoreChildren()) {
             reader.moveDown();
             try {
@@ -65,7 +64,7 @@ public class XmlUtils {
             }
             reader.moveUp();
         }
-        return baseMessage;
+        return beanWraper.getWrappedInstance();
     }
     
     @Override

@@ -156,8 +156,8 @@ public class MessageUtil {
     }
     
     public static  Object getRequestClass(String xml){
-        XmlUtils.xstream.alias("xml", BaseMessage.class);
-        XmlUtils.xstream.registerConverter(XmlUtils.baseMessageConverer);
+        XmlUtils.xstream.alias("xml", com.mmp.cq.weixin.message.request.TextMessage.class);
+        XmlUtils.xstream.registerConverter(XmlUtils.messageConverer);
         return XmlUtils.xstream.fromXML(xml);
     }
     
