@@ -1,10 +1,12 @@
 package com.mmp.cq.utils;
 
 import java.io.Writer;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.springframework.beans.BeanWrapperImpl;
 
-import com.mmp.cq.weixin.message.request.BaseMessage;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
@@ -16,10 +18,26 @@ import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 
 public class XmlUtils {
-    /** 
-     * 扩展xstream，使其支持CDATA块 
-     */  
-    public static XStream xstream = new XStream(new XppDriver() {  
+    
+    public static <T> T toObject(String xml ,Class<T> clazz){
+        xstream.alias(xml, clazz);
+        xstream.registerConverter(messageConverer);
+        return (T)xstream.fromXML(xml);
+    }
+     
+    
+    public static String toXML(Object obj, Map<String ,Class> alias){
+        xstream.alias("xml", obj.getClass());
+        if(null != alias){
+            Set<Entry<String,Class>> entrySet = alias.entrySet();
+            for(Entry<String,Class> entry: entrySet){
+                xstream.alias(entry.getKey(), entry.getValue());
+            }
+        }
+        return xstream.toXML(obj);
+    }
+    
+   public static XStream xstream = new XStream(new XppDriver() {  
         public HierarchicalStreamWriter createWriter(Writer out) {  
             return new PrettyPrintWriter(out) {  
                 // 对所有xml节点的转换都增加CDATA标记  
@@ -42,7 +60,6 @@ public class XmlUtils {
             };  
         }  
     }); 
-    
     
    public static Converter messageConverer = new Converter() {
     

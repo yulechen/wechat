@@ -1,5 +1,6 @@
 package com.synnex.message.core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,11 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
+import com.mmp.cq.utils.XmlUtils;
+import com.mmp.cq.weixin.message.MessageTypes.RequestTypes;
 import com.mmp.cq.weixin.message.MessageUtil;
+import com.mmp.cq.weixin.message.request.BaseMessage;
+import com.mmp.cq.weixin.message.request.ImageMessage;
+import com.mmp.cq.weixin.message.request.LinkMessage;
+import com.mmp.cq.weixin.message.request.LocationMessage;
+import com.mmp.cq.weixin.message.request.ShortVideoMessage;
+import com.mmp.cq.weixin.message.request.TextMessage;
+import com.mmp.cq.weixin.message.request.VideoMessage;
+import com.mmp.cq.weixin.message.request.VoiceMessage;
 import com.mmp.cq.weixin.message.response.Article;
 import com.mmp.cq.weixin.message.response.NewsMessage;
 import com.mmp.cq.weixin.message.response.RespTestMsg;
-import com.mmp.cq.weixin.message.response.TextMessage;
+import com.mmp.cq.weixin.message.response.ResponseUtils;
+
 
 public class CoreService {  
     
@@ -25,96 +37,44 @@ public class CoreService {
      * @return 
      */  
     public static String processRequest(HttpServletRequest request) {  
-        String respMessage = null;  
-        try {  
-            // 默认返回的文本消息内容  
-            String respContent = "请求处理异常，请稍候尝试！";  
-  
-            // xml请求解析  
-            Map<String, String> requestMap = MessageUtil.parseXml(request);  
-  
-            // 发送方帐号（open_id）  
-            String fromUserName = requestMap.get("FromUserName");  
-            // 公众帐号  
-            String toUserName = requestMap.get("ToUserName");  
-            // 消息类型  
-            String msgType = requestMap.get("MsgType");
-            log.debug("Content"+requestMap.get("Content"));
-            log.debug("fromUserName"+fromUserName);
-            // 回复文本消息  
-            TextMessage textMessage = new TextMessage();  
-            textMessage.setToUserName(fromUserName);  
-            textMessage.setFromUserName(toUserName);  
-            textMessage.setCreateTime(new Date().getTime());  
-            textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);  
-            textMessage.setFuncFlag(0);  
-  
-            // 文本消息  
-            if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {  
-                respContent = "您发送的是文本消息！";  
-                respContent= respContent+RespTestMsg.getMainMenu();
-                if("weixinjsdemo".equals(requestMap.get("Content"))){
-                    NewsMessage newsMessage = new NewsMessage();
-                    newsMessage.setArticleCount(1);
-                    newsMessage.setCreateTime(new Date().getTime());
-                    newsMessage.setFromUserName(toUserName);
-                    newsMessage.setToUserName(fromUserName);
-                    newsMessage.setFuncFlag(1);
-                    newsMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
-                    List l = new ArrayList<>();
-                    Article a = new Article();
-                    a.setDescription("微信jsdemo");
-                    a.setTitle("微信jsdemo");
-                    a.setUrl("http://203.195.235.76/jssdk/");
-                    l.add(a);
-                    newsMessage.setArticles(l);
-                    return MessageUtil.newsMessageToXml(newsMessage);
-                }
+        BaseMessage baseMessage =null;
+        try {
+            String  requestXml= MessageUtil.getRequestXMLContent(request);
+            log.info("收到微信服务器发了的消息："+requestXml);
+            baseMessage = XmlUtils.toObject(requestXml, BaseMessage.class);
+            //1
+            if(RequestTypes.TEXT.equals(baseMessage.getMsgType())){
+                TextMessage textMessage = XmlUtils.toObject(requestXml,TextMessage.class);
+            // 2    
+            }else if(RequestTypes.IMAGE.equals(baseMessage.getMsgType())){
+                ImageMessage imageMessage = XmlUtils.toObject(requestXml, ImageMessage.class);
+            // 3 
+            }else if (RequestTypes.LINK.equals(baseMessage.getMsgType())){
+                LinkMessage linkMessage = XmlUtils.toObject(requestXml, LinkMessage.class);
+            // 4
+            }else if (RequestTypes.LOCATION.equals(baseMessage.getMsgType())){
+                LocationMessage message = XmlUtils.toObject(requestXml, LocationMessage.class);
+            // 5    
+            }else if (RequestTypes.SHORTVIDEO.equals(baseMessage.getMsgType())){
+                ShortVideoMessage message = XmlUtils.toObject(requestXml, ShortVideoMessage.class);
+            // 6    
+            }else if (RequestTypes.VIDEO.equals(baseMessage.getMsgType())){
+                VideoMessage message = XmlUtils.toObject(requestXml, VideoMessage.class);
+             // 7    
+            }else if (RequestTypes.VOICE.equals(baseMessage.getMsgType())){
+                VoiceMessage message = XmlUtils.toObject(requestXml,VoiceMessage.class);
+             // 8 
+            }else if (RequestTypes.EVENT.equals(baseMessage.getMsgType())){
                 
-                
-            }  
-            // 图片消息  
-            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) {  
-                respContent = "您发送的是图片消息！";  
-            }  
-            // 地理位置消息  
-            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LOCATION)) {  
-                respContent = "您发送的是地理位置消息！";  
-            }  
-            // 链接消息  
-            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LINK)) {  
-                respContent = "您发送的是链接消息！";  
-            }  
-            // 音频消息  
-            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_VOICE)) {  
-                respContent = "您发送的是音频消息！";  
-            }  
-            // 事件推送  
-            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {  
-                // 事件类型  
-                String eventType = requestMap.get("Event");  
-                // 订阅  
-                if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {  
-                    respContent = "谢谢您的关注！";  
-                }  
-                // 取消订阅  
-                else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {  
-                    // TODO 取消订阅后用户再收不到公众号发送的消息，因此不需要回复消息  
-                }  
-                // 自定义菜单点击事件  
-                else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {  
-                    // TODO 自定义菜单权没有开放，暂不处理该类消息  
-                }  
-            }  
-  
-            textMessage.setContent(respContent);  
-            respMessage = MessageUtil.textMessageToXml(textMessage);  
-            log.debug("responsemes"+respMessage);
-        } catch (Exception e) {  
+            }
+            
+            log.info("responsemes"+ResponseUtils.responseDefaultText(baseMessage));
+            
+        }
+        catch (IOException e) {
+            e.printStackTrace();
             log.error("",e);
-            e.printStackTrace();  
-        }  
-  
-        return respMessage;  
+        }
+        return ResponseUtils.responseDefaultText(baseMessage);  
     }  
 }  

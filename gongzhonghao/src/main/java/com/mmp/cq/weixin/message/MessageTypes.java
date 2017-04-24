@@ -29,12 +29,10 @@ public interface MessageTypes {
          * 请求消息类型：4 视频 
          */  
         public static final String VIDEO = "video";  
-        
         /** 
          * 请求消息类型：5 小视频 
          */  
         public static final String SHORTVIDEO = "shortvideo";  
-        
         
         /** 
          * 请求消息类型：6 地理位置 
@@ -45,10 +43,12 @@ public interface MessageTypes {
          * 请求消息类型：7 链接 
          */  
         public static final String LINK = "link";  
-
-      
-
         
+        /** 
+         * 请求消息类型：8 事件
+         */  
+        public static final String EVENT = "event"; 
+      
     }
     
     

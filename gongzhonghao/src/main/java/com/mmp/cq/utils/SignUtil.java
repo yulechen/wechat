@@ -1,4 +1,4 @@
-package com.synnex.message.core;
+package com.mmp.cq.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
