@@ -154,6 +154,18 @@ public class MessageUtil {
             instream.close();
         }
     }
+    
+    public static  Object getRequestClass(String xml){
+        XmlUtils.xstream.alias("xml", BaseMessage.class);
+        XmlUtils.xstream.registerConverter(XmlUtils.baseMessageConverer);
+        return XmlUtils.xstream.fromXML(xml);
+    }
+    
+    public static void main(String[] args) {
+        String xml =" <xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[fromUser]]></FromUserName><CreateTime>1348831860</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[this is a test]]></Content><MsgId>1234567890123456</MsgId></xml>";
+        System.out.println(getRequestClass(xml));
+    }
+    
     /** 
      * 文本消息对象转换成xml 
      *  

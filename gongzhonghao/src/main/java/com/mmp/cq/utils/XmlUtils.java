@@ -2,8 +2,15 @@ package com.mmp.cq.utils;
 
 import java.io.Writer;
 
+import org.springframework.beans.BeanWrapperImpl;
+
+import com.mmp.cq.weixin.message.request.BaseMessage;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.Converter;
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.core.util.QuickWriter;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
@@ -35,5 +42,36 @@ public class XmlUtils {
             };  
         }  
     }); 
+    
+    
+   public static Converter baseMessageConverer = new Converter() {
+    
+    @Override
+    public boolean canConvert(Class type) {
+        return type.equals(BaseMessage.class);
+    }
+    
+    @Override
+    public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
+        BaseMessage baseMessage =new BaseMessage();
+        BeanWrapperImpl beanWraper = new BeanWrapperImpl(baseMessage);
+        while (reader.hasMoreChildren()) {
+            reader.moveDown();
+            try {
+                beanWraper.setPropertyValue(reader.getNodeName(), reader.getValue());
+            }
+            catch (Exception e) {
+                // ignore
+            }
+            reader.moveUp();
+        }
+        return baseMessage;
+    }
+    
+    @Override
+    public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
+        
+    }
+}; 
     
 }
