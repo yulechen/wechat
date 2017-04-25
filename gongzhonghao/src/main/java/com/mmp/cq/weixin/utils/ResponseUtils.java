@@ -14,12 +14,12 @@ import com.mmp.cq.weixin.message.response.TextMessage;
 
 public class ResponseUtils {
 
-    public static String responsejsDemoNewsMessage(String toUserName ,String fromUserName){
+    public static String responsejsDemoNewsMessage(com.mmp.cq.weixin.message.request.BaseMessage baseMessage ){
         NewsMessage newsMessage = new NewsMessage();
         newsMessage.setArticleCount(1);
         newsMessage.setCreateTime(new Date().getTime());
-        newsMessage.setFromUserName(toUserName);
-        newsMessage.setToUserName(fromUserName);
+        newsMessage.setFromUserName(baseMessage.getToUserName());
+        newsMessage.setToUserName(baseMessage.getFromUserName());
         newsMessage.setFuncFlag(1);
         newsMessage.setMsgType(ResponseTypes.NEWS);
         List l = new ArrayList<>();
@@ -55,7 +55,5 @@ public class ResponseUtils {
         text.setToUserName(baseMessage.getFromUserName());
         return XmlUtils.toXML(text, null);
     }
-    public static void main(String[] args) {
-      System.out.println(responsejsDemoNewsMessage("a","b"));
-    }
+
 }

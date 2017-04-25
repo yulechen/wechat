@@ -49,7 +49,7 @@ public class CoreService {
                 TextMessage textMessage = XmlUtils.toObject(requestXml,TextMessage.class);
                 debugMessage="您发送的是文本消息";
                 if("weijsdemo".equals(textMessage.getContent())){
-                    return  ResponseUtils.responsejsDemoNewsMessage(baseMessage.getFromUserName(), baseMessage.getToUserName());
+                    return  ResponseUtils.responsejsDemoNewsMessage(baseMessage);
                 }
             // 2    
             }else if(RequestTypes.IMAGE.equals(baseMessage.getMsgType())){
@@ -98,10 +98,10 @@ public class CoreService {
             log.info("responsemes"+debugMessage);
             return ResponseUtils.responseText(baseMessage, debugMessage);
         }
-        catch (IOException e) {
-            e.printStackTrace();
+        catch (Exception e) {
             log.error("",e);
         }
+        
         return ResponseUtils.responseDefaultText(baseMessage);  
     }  
     
