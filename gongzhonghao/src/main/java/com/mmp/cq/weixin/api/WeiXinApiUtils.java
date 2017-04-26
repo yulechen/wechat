@@ -17,13 +17,26 @@ public class WeiXinApiUtils {
         URI accessTokenURI = new URI("https://api.weixin.qq.com/cgi-bin/token");
         Map param = new HashMap();
         param.put("grant_type", "client_credential");
-        param.put("appid", "wx552f9b0b4fa40821");
-        param.put("secret", "b749193534b1c9a5750002a931793751");
+        param.put("appid", "wx552f9b0b4fa40829");
+        param.put("secret", "b749193534b1c9a5750002a931793759");
         String responesJson = ApiUtils.get(accessTokenURI, param);
         System.out.println("access_token_api_response:   "+responesJson);
         Map<String,String> map = GsonUtil.toObject(responesJson, Map.class);
         return map.get("access_token"); 
     }
+    
+    public static String getUserInfo(String accessToken,String userid) throws URISyntaxException{
+        //https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
+        URI userInfoUrl = new URI("https://api.weixin.qq.com/cgi-bin/user/info");
+        Map param = new HashMap();
+        param.put("access_token", accessToken);
+        param.put("openid", userid);
+        param.put("lang", "zh_CN");
+        String responesJson = ApiUtils.get(userInfoUrl, param);
+        System.out.println("access_token_api_response:   "+responesJson);
+        return responesJson;
+    }
+    
     
     public static void createMenu(String accessToken,File menu) throws URISyntaxException{
         URI createMenu = new URI("https://api.weixin.qq.com/cgi-bin/menu/create?access_token="+accessToken);
@@ -38,11 +51,13 @@ public class WeiXinApiUtils {
     }
     
     public static void main(String[] args) throws URISyntaxException {
-       // System.out.println(getAccessToken());
-        String accessToken ="zEADgS3-k73TATUsn0GbsZS1a_cgdl-ODoiGPwKgMonc_NGQm0LcSB6oV7UM-Zr6dCejIjkbsNo85W7bYuSRyxW9X0diNt9pEvxCR--CEEdms1hmGqjRIkXc7ttO7txxFHGeAFAKML";
+      //  System.out.println(getAccessToken());
+        String accessToken ="_Mr5ZIzorXhi92-oiodEWyzfMJ-adSlASM65fqugZTLy6CES1x3O4oRUmxjlmWsVPo3cmHhG9KyLDAk-BjplUgGYCGwATmeI0vRVEHQk80Qov95N0tpNOHwP_18vv7HWDLBdAFAJRH";
        // URL resource = WeiXinApiUtils.class.getResource("/weixindata/apimenu/create.json");
-        URL resource = WeiXinApiUtils.class.getResource("/weixindata/resource/add.json");
-        File file = new File(resource.getFile());
-        addResource(accessToken,file);
+        //URL resource = WeiXinApiUtils.class.getResource("/weixindata/resource/add.json");
+        //File file = new File(resource.getFile());
+       // addResource(accessToken,file);
+        
+        System.out.println(getUserInfo(accessToken,"oCumrs8ghvroQqRk6bN-PKDvChrI"));
     }
 }
