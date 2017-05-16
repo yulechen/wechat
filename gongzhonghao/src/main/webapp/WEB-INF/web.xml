@@ -14,4 +14,16 @@
   	<servlet-name>CoreServlet</servlet-name>
   	<url-pattern>/CoreServlet</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>ProxyServlet</servlet-name>
+  	<display-name>ProxyServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.synnex.message.core.ProxyServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ProxyServlet</servlet-name>
+  	<url-pattern>/proxy</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

@@ -2,6 +2,7 @@ package com.mmp.cq.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -105,6 +106,20 @@ public class ApiUtils {
             response = client.execute(request);
             HttpEntity entity = response.getEntity();
             return EntityUtils.toString(entity, Charset.forName("utf-8"));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+       return null;
+    }
+    
+    public static byte[] post(URI uri){
+        HttpPost request = new HttpPost(uri);
+        HttpResponse response;
+        try{
+            response = client.execute(request);
+            HttpEntity entity = response.getEntity();
+            return EntityUtils.toByteArray(entity);
         }
         catch (IOException e) {
             e.printStackTrace();
